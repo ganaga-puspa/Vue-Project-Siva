@@ -6,14 +6,14 @@
         <div>
           <p>Traffic Flow</p>
           <hr />
-          <p v-for="item in hdfValues" :key="item">
+          <p v-for="item in hdfData" :key="item">
             <input
               type="checkbox"
               id="checkbox"
               v-model="checked"
-              @change="checkboxChanged(item)"
+              @change="checkboxChanged(item.file_path)"
             />
-            <label :for="item">{{ getTimeString(item) }}</label>
+            <label :for="item">{{ getTimeString(item.modified_at) }}</label>
           </p>
         </div>
 
@@ -21,9 +21,9 @@
           <p>Incidents</p>
           <hr />
 
-          <p v-for="item in hdtValues" :key="item">
+          <p v-for="item in hdtData" :key="item">
             <input type="checkbox" id="checkbox" v-model="checked" />
-            <label for="checkbox"> {{ getTimeString(item) }}</label>
+            <label for="checkbox"> {{ getTimeString(item.modified_at) }}</label>
           </p>
         </div>
       </div>
@@ -39,9 +39,9 @@ export default {
     return {
       Data: [],
       hdfData: [],
-      hdfValues: [],
+      // hdfValues: [],
       hdtData: [],
-      hdtValues: [],
+      // hdtValues: [],
       process: false,
     };
   },
@@ -59,17 +59,17 @@ export default {
         );
 
         this.hdfData = hdfArray;
-        const filePaths = hdfArray.map((item) => item.modified_at);
-        this.hdfValues = filePaths;
+        // const filePaths = hdfArray.map((item) => item.modified_at);
+        // this.hdfValues = filePaths;
 
         //hdt
         const hdtArray = this.Data[0]?.filter((item) =>
           item.file_path.includes("HDT")
         );
 
-        this.hdtData = hdfArray;
-        const filePath = hdtArray.map((item) => item.modified_at);
-        this.hdtValues = filePath;
+        this.hdtData = hdtArray;
+        // const filePath = hdtArray.map((item) => item.modified_at);
+        // this.hdtValues = filePath;
       } catch (e) {
         console.error(e);
       }
@@ -81,9 +81,11 @@ export default {
     },
 
     checkboxChanged(item) {
-      console.log(
-        `Checkbox for item ${item} changed. New value: ${this.checked}`
-      );
+      if (this.checked) {
+        console.log(
+          `Checkbox for item ${item} changed. New value: ${this.checked}`
+        );
+      }
       // Call your function here
     },
   },
